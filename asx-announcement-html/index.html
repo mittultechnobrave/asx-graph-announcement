@@ -1,0 +1,69 @@
+<html>
+  <head>
+    <title>Announcements</title>
+  </head>
+  <body>
+    <h1>Announcements</h1>
+    <div id="announcements_list">Rendering....</div>
+  </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script>
+    function formatDate(date) {
+      var monthNames = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+      ];
+
+      var day = date.getDate();
+      var monthIndex = date.getMonth();
+      var year = date.getFullYear();
+
+      return day + " " + monthNames[monthIndex] + " " + year;
+    }
+
+    $(document).ready(function() {
+      var shortCode = "EM1";
+      var ajaxurl =
+        "https://www.asx.com.au/asx/1/company/" +
+        shortCode +
+        "/announcements?count=100";
+
+      $.ajax({
+        dataType: "jsonp",
+        url: ajaxurl,
+        success: function(response) {
+          if (typeof response.data !== "undefined") {
+            console.log("success");
+            var str = "";
+            $.each(response.data, function(index, value) {
+              var d = new Date(value.document_release_date);
+
+              str +=
+                '<li><a href="' +
+                value.url +
+                '">' +
+                value.header +
+                " – " +
+                formatDate(d) +
+                "</a></li>";
+            });
+            $("#announcements_list").html(str);
+          } else {
+            console.error("error");
+            $("#announcements_list").html("No records found...");
+          }
+        }
+      });
+    });
+  </script>
+</html>

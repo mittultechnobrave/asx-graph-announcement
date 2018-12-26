@@ -1,0 +1,122 @@
+<html>
+  <head>
+    <title>Announcements</title>
+  </head>
+  <body>
+    <h1>Graph</h1>
+    <div>
+      <div
+        id="tooltip"
+        display="none"
+        style="position: absolute; display: none;"
+      ></div>
+      <div id="chart"></div>
+    </div>
+  </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="./graph.min.js"></script>
+  <script>
+    months = [
+      "Jan",
+      "Fab",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ];
+    days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ];
+
+    var shortCode = "EM1";
+    var ajaxurl =
+      "https://www.asx.com.au/asx/1/share/" +
+      shortCode +
+      "/prices?interval=daily&count=365";
+
+    function SimpleStockChart() {
+      var pointer = this;
+      pointer.element = null;
+      pointer.ticker = null;
+      pointer.skin = "dark";
+      pointer.cache = null;
+      pointer.type = "line";
+      pointer.style = {
+        width: "100%",
+        height: "420px",
+        padding: "20px",
+        margin: "10px 0px",
+        border: "1px solid #ccc",
+        // "background": "linear-gradient(180deg, #585858, #444)",
+        boxSizing: "border-box",
+        position: "relative"
+      };
+      pointer.area = {
+        fill: "#ffb889"
+      };
+      pointer.chart = {
+        fill: "none",
+        stroke: "#f60"
+      };
+      pointer.font = {
+        fontFamily:
+          "Open Sans, HelveticaNeue, Helvetica Neue, Helvetica, Arial, sans-serif",
+        fontSize: "11",
+        fill: "#888"
+      };
+      pointer.majorAxis = {
+        // "fill": "#888"
+        fill: "#d5dae0"
+      };
+      pointer.minorAxis = {
+        // "fill": "#333",
+        fill: "#d5dae0",
+        count: 10
+      };
+      pointer.pointer = {
+        fill: "#f60",
+        r: 4,
+        stroke: "#f60"
+      };
+      pointer.volume = {
+        fill: "#9fcfff",
+        stroke: "#6688aa"
+      };
+      pointer.scrollBarMaxWidth = 300;
+      pointer.scrollPickerWidth = 12;
+    }
+
+    function hideTooltip() {
+      tooltip.style.display = "none";
+      tooltipText1.textContent = tooltipText2.textContent = tooltipText3.textContent =
+        "";
+    }
+
+
+
+    $(document).ready(function($) {
+      window.addEventListener("load", function() {
+        var chart = new SimpleStockChart();
+        chart.element = document.getElementById("chart");
+        chart.ticker = "AAPL";
+        chart.style.height = "600px";
+        chart.chart.stroke = "#0072ff";
+        chart.area.fill = "#9bc1f2";
+        chart.font.fontSize = "15";
+        chart.draw();
+      });
+    });
+  </script>
+</html>
